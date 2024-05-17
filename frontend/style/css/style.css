@@ -418,3 +418,130 @@ button.remove-item:hover {
 #clear-favorites:hover {
     background-color: #cc0000;
 }
+
+.sneaker-item.unavailable {
+    
+    opacity: 0.5; /* Diminue l'opacité pour indiquer que l'article n'est pas disponible */
+    pointer-events: none; /* Désactive les interactions avec les articles non disponibles */
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: red;
+}
+
+.discounted-price {
+    font-weight: bold;
+    color: green;
+}
+
+/* Styles pour le formulaire d'adresse */
+.address-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.address-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.address-form input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.address-form input:focus {
+    border-color: #007BFF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.select-address {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+/* Styles pour le conteneur de panier */
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart-container h2 {
+    margin-top: 20px;
+}
+
+.cart-container button {
+    margin-top: 10px;
+    padding: 10px;
+}
+.burger-menu {
+    position: relative;
+    display: inline-block;
+}
+
+.burger-icon {
+    cursor: pointer;
+    font-size: 24px;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    width: 200px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.burger-menu .show {
+    display: block;
+}

@@ -46,10 +46,8 @@ function getSneakers() {
                 }
                 // Filtrer par disponibilité
                 if (availabilityFilter.value !== 'all') {
-                    const isAvailable = availabilityFilter.value === 'true';
-                    if (sneaker.quantity > 0 && isAvailable)
-                        return false;
-                    if (sneaker.quantity === 0 && !isAvailable)
+                    const isAvailable = availabilityFilter.value === '1';
+                    if ((isAvailable && sneaker.availability === 0) || (!isAvailable && sneaker.availability === 1))
                         return false;
                 }
                 return true; // Conserver les sneakers qui passent tous les filtres
@@ -69,12 +67,21 @@ function getSneakers() {
                 // Créer des éléments de sneaker comme avant
                 const sneakerDiv = document.createElement('div');
                 sneakerDiv.classList.add('sneaker-item');
+                if (sneaker.availability === 0) {
+                    sneakerDiv.classList.add('unavailable');
+                }
 
                 const nameElement = document.createElement('h3');
                 nameElement.textContent = sneaker.name;
 
+                let priceText = `Prix: ${sneaker.price}$`;
+                if (sneaker.reduction > 0) {
+                    const discountedPrice = (sneaker.price * (1 - sneaker.reduction / 100)).toFixed(2);
+                    priceText = `Prix: <span class="original-price">${sneaker.price}$</span> <span class="discounted-price">${discountedPrice}$</span>`;
+                }
+
                 const priceElement = document.createElement('p');
-                priceElement.textContent = `Prix: ${sneaker.price}$`;
+                priceElement.innerHTML = priceText;
 
                 const imageUrls = sneaker.image_urls.split(',');
 

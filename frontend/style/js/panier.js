@@ -2,6 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const cartItemsContainer = document.getElementById('cart-items');
     const clearCartButton = document.getElementById('clear-cart');
     const checkoutButton = document.getElementById('checkout');
+    const addressContainer = document.getElementById('address-container');
+    const saveAddressButton = document.getElementById('save-address');
+    const savedAddressesSelect = document.getElementById('saved-addresses');
+    const confirmOrderButton = document.getElementById('confirm-order');
 
     clearCartButton.addEventListener('click', () => {
         localStorage.removeItem('cart');
@@ -9,11 +13,75 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     checkoutButton.addEventListener('click', () => {
-        // Ajoutez ici le code pour passer la commande
-        alert('Commande passée avec succès!');
-        localStorage.removeItem('cart');
-        renderCart([]);
+        addressContainer.style.display = 'block';
     });
+
+    confirmOrderButton.addEventListener('click', () => {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const selectedAddress = savedAddressesSelect.value;
+
+        if (cart.length === 0) {
+            alert('Le panier est vide');
+            return;
+        }
+
+        if (!selectedAddress) {
+            alert('Veuillez sélectionner une adresse de livraison');
+            return;
+        }
+
+        fetch('http://localhost:5500/orders/place-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cart, address: JSON.parse(selectedAddress) })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+            }
+            localStorage.removeItem('cart');
+            renderCart([]);
+            addressContainer.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Erreur lors de la commande:', error);
+            alert('Erreur lors de la commande');
+        });
+    });
+
+    saveAddressButton.addEventListener('click', () => {
+        const address = document.getElementById('address').value;
+        const city = document.getElementById('city').value;
+        const postalCode = document.getElementById('postal-code').value;
+        const country = document.getElementById('country').value;
+
+        if (address && city && postalCode && country) {
+            let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            const newAddress = { address, city, postalCode, country };
+            addresses.push(newAddress);
+            localStorage.setItem('addresses', JSON.stringify(addresses));
+            populateSavedAddresses();
+            alert('Adresse enregistrée avec succès');
+        } else {
+            alert('Veuillez remplir tous les champs');
+        }
+    });
+
+    function populateSavedAddresses() {
+        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        savedAddressesSelect.innerHTML = '<option value="">Sélectionnez une adresse</option>';
+        addresses.forEach((addr, index) => {
+            const option = document.createElement('option');
+            option.value = JSON.stringify(addr);
+            option.textContent = `${addr.address}, ${addr.city}, ${addr.postalCode}, ${addr.country}`;
+            savedAddressesSelect.appendChild(option);
+        });
+    }
+
+    populateSavedAddresses();
 
     renderCart();
 

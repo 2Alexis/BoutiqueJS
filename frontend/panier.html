@@ -14,18 +14,56 @@
         <nav>
             <ul>
                 <li><a href="/frontend/index.html">Accueil</a></li>
-                <li><a href="favorites.html">Voir les favoris</a></li>
                 <li><a href="panier.html">Panier</a></li>
+                <li><a class="btn-fav" href="favorites.html">Voir les favoris</a></li>
             </ul>
         </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher...">
+            <button type="submit">Rechercher</button>
+        </div>
+        <div class="profile-tab">
+            <a href="#">Profil</a>
+        </div>
     </header>
 
     <div class="cart-container">
         <h1>Panier</h1>
         <div id="cart-items"></div>
         <div id="total-price"></div>
-        <button id="clear-cart">Vider le panier</button>
-        <button id="checkout">Passer la commande</button>
+
+        <button id="clear-cart" class="btn">Vider le panier</button>
+        <button id="checkout" class="btn">Passer la commande</button>
+
+        <div id="address-container" style="display: none;">
+            <h2>Adresse de livraison</h2>
+            <form id="address-form" class="address-form">
+                <div class="form-group">
+                    <label for="address">Adresse:</label>
+                    <input type="text" id="address" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Ville:</label>
+                    <input type="text" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="postal-code">Code Postal:</label>
+                    <input type="text" id="postal-code" name="postal-code" required>
+                </div>
+                <div class="form-group">
+                    <label for="country">Pays:</label>
+                    <input type="text" id="country" name="country" required>
+                </div>
+                <button type="button" id="save-address" class="btn">Enregistrer l'adresse</button>
+            </form>
+
+            <h2>Adresses enregistrées</h2>
+            <select id="saved-addresses" class="select-address">
+                <option value="">Sélectionnez une adresse</option>
+            </select>
+
+            <button id="confirm-order" class="btn">Confirmer la commande</button>
+        </div>
     </div>
 
     <script src="style/js/panier.js"></script>

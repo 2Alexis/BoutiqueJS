@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion</title>
+    <link rel="stylesheet" href="style/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/frontend/index.html"> <img src="style/img/shoes-logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/frontend/index.html">Accueil</a></li>
+                <li><a href="panier.html">Panier</a></li>
+                <li><a class="btn-fav" href="favorites.html">Voir les favoris</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher...">
+            <button type="submit">Rechercher</button>
+        </div>
+        <div class="profile-tab">
+            <a href="#">Profil</a>
+        </div>
+    </header>
+
+    <div class="login-container">
+        <h2>Connexion</h2>
+        <form id="login-form">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="password">Mot de passe:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit" class="btn">Connexion</button>
+        </form>
+    </div>
+
+    <script src="style/js/login.js"></script>
+</body>
+</html>

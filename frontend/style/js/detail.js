@@ -8,10 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(data => {
                 const sneaker = data;
                 document.getElementById('sneaker-name').textContent = sneaker.name;
-                document.getElementById('sneaker-price').textContent = `Prix: ${sneaker.price}$`;
+
+                let priceText = `Prix: ${sneaker.price}$`;
+                if (sneaker.reduction > 0) {
+                    const discountedPrice = (sneaker.price * (1 - sneaker.reduction / 100)).toFixed(2);
+                    priceText = `Prix: <span class="original-price">${sneaker.price}$</span> <span class="discounted-price">${discountedPrice}$</span>`;
+                }
+
+                document.getElementById('sneaker-price').innerHTML = priceText;
                 document.getElementById('sneaker-colors').textContent = `Couleurs: ${sneaker.colors}`;
                 document.getElementById('sneaker-reduction').textContent = `Réduction: ${sneaker.reduction}%`;
-                document.getElementById('sneaker-available').textContent = `Disponible: ${sneaker.available ? 'Oui' : 'Non'}`;
+                document.getElementById('sneaker-available').textContent = `Disponible: ${sneaker.availability ? 'Oui' : 'Non'}`;
                 document.getElementById('sneaker-sizes').textContent = `Tailles disponibles: ${sneaker.sizes}`;
                 document.getElementById('sneaker-description').textContent = `Description: ${sneaker.description}`;
                 
@@ -79,10 +86,12 @@ document.addEventListener("DOMContentLoaded", () => {
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         const existingItemIndex = cart.findIndex(item => item.id === sneaker.id);
+        let price = sneaker.reduction > 0 ? (sneaker.price * (1 - sneaker.reduction / 100)).toFixed(2) : sneaker.price;
+
         if (existingItemIndex !== -1) {
             cart[existingItemIndex].quantity += quantity;
         } else {
-            cart.push({ id: sneaker.id, name: sneaker.name, price: sneaker.price, quantity });
+            cart.push({ id: sneaker.id, name: sneaker.name, price, quantity });
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
