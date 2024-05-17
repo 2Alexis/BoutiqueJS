@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details de la sneaker</title>
+    <link rel="stylesheet" href="style/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/frontend/index.html"> <img src="style/img/shoes-logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/frontend/index.html">Accueil</a></li>
+            
+                <li><a class="btn-fav" href="favorites.html">Voir les favoris</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher...">
+            <button type="submit">Rechercher</button>
+        </div>
+        <div class="profile-tab">
+            <a href="#">Profil</a>
+        </div>
+    </header>
+    <a href="index.html" id="home-link"><img src="style/img/fleche-gauche.png" alt="Retour"></a>
+  
+    <div class="sneaker-details">
+       
+        <h2 id="sneaker-name"></h2>
+        <div id="fav-description">
+           
+            <div id="sneakers-description">
+            <p id="sneaker-price"></p>
+            <p id="sneaker-colors"></p>
+            <p id="sneaker-reduction"></p>
+            <p id="sneaker-available"></p>
+            <p id="sneaker-sizes"></p>
+            
+
+        </div>
+        <div id="favoris">
+            <button id="add-to-favorites" style="display: none;"><img src = "style/img/coeur.png"></button>
+            <button id="remove-from-favorites" style="display: none;"><img src = "style/img/coeur_brise.png"></button>
+            </div>
+        </div>
+        <div id="sneaker-images"></div>
+        <p id="sneaker-description"></p>
+        
+    <div id="sneaker-cart">
+        <label for="quantity">Quantité :</label>
+        <input type="number" id="quantity" min="1" value="1">
+        <button id="add-to-cart">Ajouter au panier</button>
+    </div>
+    </div>
+    
+    <script type="text/javascript" src="style/js/detail.js"></script>
+</body>
+</html>

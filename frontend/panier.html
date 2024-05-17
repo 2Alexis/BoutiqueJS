@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier</title>
+    <link rel="stylesheet" href="style/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/frontend/index.html"> <img src="style/img/shoes-logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/frontend/index.html">Accueil</a></li>
+                <li><a href="favorites.html">Voir les favoris</a></li>
+                <li><a href="panier.html">Panier</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="cart-container">
+        <h1>Panier</h1>
+        <div id="cart-items"></div>
+        <div id="total-price"></div>
+        <button id="clear-cart">Vider le panier</button>
+        <button id="checkout">Passer la commande</button>
+    </div>
+
+    <script src="style/js/panier.js"></script>
+</body>
+</html>

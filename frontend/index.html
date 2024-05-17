@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue des Sneakers</title>
+    <link rel="stylesheet" href="style/css/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/frontend/index.html"> <img src="style/img/shoes-logo.png" alt="Logo"></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/frontend/index.html">Accueil</a></li>
+                <li><a href="panier.html">Panier</a></li>
+                <li><a class="btn-fav" href="favorites.html">Voir les favoris</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher...">
+            <button type="submit">Rechercher</button>
+        </div>
+        <div class="profile-tab">
+            <a href="#">Profil</a>
+        </div>
+    </header>
+
+    <h1>Catalogue des Sneakers</h1>
+    <!-- Ajouter des éléments de filtrage -->
+    
+    <div class="filters">
+        <h2>Filtres :</h2>
+        <label for="gender-filter">Sexe :</label>
+        <select id="gender-filter">
+            <option value="all">Tous</option>
+            <option value="homme">Homme</option>
+            <option value="femme">Femme</option>
+        </select>
+    
+        <label for="color-filter">Couleur :</label>
+        <select id="color-filter">
+            <option value="all">Toutes</option>
+            <option value="bleu">Bleu</option>
+            <option value="blanc">Blanc</option>
+            <option value="noir">Noir</option>
+            <option value="gris">Gris</option>
+            <option value="vert">Vert</option>
+            <option value="rouge">Rouge</option>
+            <option value="violet">Violet</option>
+            <option value="beige">Beige</option>
+            <!-- Ajouter d'autres options de couleur si nécessaire -->
+        </select>
+    
+        <label for="size-filter">Taille :</label>
+        <select id="size-filter">
+            <option value="all">Toutes</option>
+            <option value="EU 40">EU 40</option>
+            <option value="EU 41">EU 41</option>
+            <option value="EU 42">EU 42</option>
+            <option value="EU 43">EU 43</option>
+            <option value="EU 44">EU 44</option>
+            <!-- Ajouter d'autres options de taille si nécessaire -->
+        </select>
+    
+        <label for="reduction-filter">Réduction :</label>
+        <select id="reduction-filter">
+            <option value="all">Toutes</option>
+            <option value="true">Avec réduction</option>
+            <option value="false">Sans réduction</option>
+        </select>
+    
+        <label for="availability-filter">Disponibilité :</label>
+        <select id="availability-filter">
+            <option value="all">Toutes</option>
+            <option value="true">En stock</option>
+            <option value="false">Hors stock</option>
+        </select>
+        <label for="sort-filter">Trier par prix :</label>
+            <select id="sort-filter">
+            <option value="default">Sélectionnez un ordre</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+        </select>
+
+    </div>
+
+    <div id="sneakers" class="sneakers-container">
+        <!-- Les chaussures seront ajoutées ici dynamiquement -->
+    </div>
+    <script type="text/javascript" src="style/js/script.js"></script>
+</body>
+</html>
