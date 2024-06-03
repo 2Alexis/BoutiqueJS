@@ -1,11 +1,14 @@
-/* Global styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    height: 100vh;
 }
 
+
+
+/* Header Styles */
 header {
     background-color: #333;
     color: #fff;
@@ -16,7 +19,7 @@ header {
 }
 
 .logo img {
-    height: 40px;
+    height: 70px;
 }
 
 nav ul {
@@ -30,6 +33,7 @@ nav ul li {
 }
 
 nav ul li a {
+    font-size: 19px;
     color: #fff;
     text-decoration: none;
 }
@@ -68,6 +72,10 @@ nav ul li a:hover {
     text-decoration: none;
 }
 
+
+
+
+/* Main Styles */
 h1 {
     text-align: center;
     margin: 20px 0;
@@ -76,43 +84,67 @@ h1 {
 
 .filters {
     display: flex;
+    flex-direction: column; /* Par défaut, en colonne pour les petits écrans */
     justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    margin: 20px 0;
+    align-items: center;
+
+    background-color: #ffffff; /* Fond blanc pour contraste et propreté */
+
+    transition: all 0.3s ease; /* Transition douce pour les effets */
+}
+
+
+
+@media (min-width: 600px) {
+    .filters {
+        flex-direction: row; /* En ligne pour les écrans plus larges */
+        gap: 20px; /* Plus d'espacement sur les grands écrans */
+    }
 }
 
 .filters label {
     margin-right: 5px;
+    font-weight: bold; /* Texte en gras pour les labels */
+    color: #007bff; /* Couleur bleue pour les labels */
+    font-size: 14px; /* Taille de police ajustée */
 }
 
 .filters select {
-    padding: 5px;
-    border-radius: 3px;
+    padding: 8px 12px; /* Plus de padding pour un confort accru */
+    border-radius: 5px;
     border: 1px solid #ccc;
+    font-size: 16px; /* Taille de police augmentée pour une meilleure lisibilité */
+    background-color: #f9f9f9; /* Fond léger pour les champs de sélection */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition douce pour les effets */
 }
+
+.filters select:focus {
+    border-color: #007bff; /* Bordure bleue au focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre légère au focus */
+}
+
 
 .sneakers-container {
     display: flex;
     flex-wrap: wrap;
-
     gap: 20px;
     padding: 20px;
 }
 
 .sneaker-item {
     background-color: #fff;
-  
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: calc(33.333% - 20px); /* Adjust width to fit three items per row */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    width: calc(33.333% - 20px);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s;
 }
 
 .sneaker-item:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
 .sneaker-item img {
@@ -144,7 +176,7 @@ h1 {
     vertical-align: middle;
 }
 
-/* Sneaker details styles */
+/* Sneaker Details Styles */
 .sneaker-details {
     background-color: #fff;
     padding: 20px;
@@ -240,6 +272,10 @@ h1 {
     background-color: #218838;
 }
 
+
+
+
+/* Cart Styles */
 .cart-container {
     max-width: 800px;
     margin: 40px auto;
@@ -249,7 +285,7 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.cart-container h1 {
+.cart-container h1, .cart-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -279,9 +315,9 @@ h1 {
     color: #555;
 }
 
-.cart-item button {
+.cart-item button, button.quantity-control, button.remove-item {
     padding: 5px 10px;
-    margin: 0 5px;
+    margin: 0 2px;
     border: none;
     border-radius: 5px;
     background-color: #007bff;
@@ -289,8 +325,16 @@ h1 {
     cursor: pointer;
 }
 
-.cart-item button:hover {
+.cart-item button:hover, button.quantity-control:hover, button.remove-item:hover {
     background-color: #0056b3;
+}
+
+button.remove-item {
+    background-color: #dc3545;
+}
+
+button.remove-item:hover {
+    background-color: #c82333;
 }
 
 .total {
@@ -328,52 +372,31 @@ h1 {
     background-color: #218838;
 }
 
-button.quantity-control {
-    padding: 5px 10px;
-    margin: 0 2px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-}
 
-button.quantity-control:hover {
-    background-color: #0056b3;
-}
 
-button.remove-item {
-    padding: 5px 10px;
-    margin: 0 2px;
-    border: none;
-    border-radius: 5px;
-    background-color: #dc3545;
-    color: #fff;
-    cursor: pointer;
-}
-
-button.remove-item:hover {
-    background-color: #c82333;
-}
-/* style/css/style.css */
-
+/* Favoris Styles */
 #favorites-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
     padding: 20px;
 }
 
 .sneaker-fav-item {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    width: calc(33.33% - 20px);
-    margin-bottom: 20px; /* Espace entre les éléments */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    width: calc(25% - 20px); /* Set width to 25% minus the margin */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 
 .sneaker-fav-info {
+    text-align: center;
+    margin-bottom: 10px;
     padding: 20px;
 }
 
@@ -385,23 +408,43 @@ button.remove-item:hover {
     margin: 10px 0;
 }
 
+.sneaker-img {
+    max-width: 100px;
+    margin: 5px;
+}
+
+.sneaker-btn-container {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-to-cart {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.remove-from-favorites {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.add-to-cart:hover, .remove-from-favorites:hover {
+    opacity: 0.8;
+}
+
 .sneaker-btn {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 10px;
-}
-
-.remove-from-favorites {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 5px;
-}
-
-.remove-from-favorites img {
-    width: 20px;
-    height: 20px;
 }
 
 #clear-favorites {
@@ -420,9 +463,8 @@ button.remove-item:hover {
 }
 
 .sneaker-item.unavailable {
-    
-    opacity: 0.5; /* Diminue l'opacité pour indiquer que l'article n'est pas disponible */
-    pointer-events: none; /* Désactive les interactions avec les articles non disponibles */
+    opacity: 0.5;
+    pointer-events: none;
 }
 
 .original-price {
@@ -435,7 +477,11 @@ button.remove-item:hover {
     color: green;
 }
 
-/* Styles pour le formulaire d'adresse */
+
+
+
+
+/* Address Form Styles */
 .address-form {
     display: flex;
     flex-direction: column;
@@ -471,21 +517,6 @@ button.remove-item:hover {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-.btn {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-}
-
-.btn:hover {
-    background-color: #0056b3;
-}
-
 .select-address {
     width: 100%;
     padding: 10px;
@@ -495,21 +526,54 @@ button.remove-item:hover {
     margin: 10px 0;
 }
 
-/* Styles pour le conteneur de panier */
-.cart-container {
+
+
+
+
+/* Payment Page Styles */
+body.payment-page {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 
-.cart-container h2 {
-    margin-top: 20px;
+.payment-container {
+    background-color: #fff;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
-.cart-container button {
-    margin-top: 10px;
-    padding: 10px;
+.payment-container h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
+
+.payment-container p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.payment-container a {
+    color: #fff;
+    background-color: #007BFF;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.payment-container a:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+/* Burger Menu Styles */
 .burger-menu {
     position: relative;
     display: inline-block;
@@ -526,7 +590,7 @@ button.remove-item:hover {
     position: absolute;
     right: 0;
     background-color: white;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     width: 200px;
 }

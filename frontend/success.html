@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paiement Réussi</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body class="payment-page">
+    <div class="payment-container">
+        <h1>Merci pour votre achat!</h1>
+        <p>Votre paiement a été traité avec succès.</p>
+        <a href="index.html">Retour à l'accueil</a>
+    </div>
+
+    <script>
+        // Vider le panier en supprimant l'élément du localStorage
+        localStorage.removeItem('cart');
+    </script>
+</body>
+</html>

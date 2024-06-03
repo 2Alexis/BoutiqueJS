@@ -15,6 +15,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     .then(data => {
         if (data.token) {
             localStorage.setItem('token', data.token);
+            localStorage.setItem('userId', data.userId); // Enregistrer l'ID utilisateur correctement
             alert('Connexion réussie');
             window.location.href = '/frontend/index.html'; // Redirection vers l'accueil
         } else {

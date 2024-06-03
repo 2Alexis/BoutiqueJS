@@ -6,9 +6,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveAddressButton = document.getElementById('save-address');
     const savedAddressesSelect = document.getElementById('saved-addresses');
     const confirmOrderButton = document.getElementById('confirm-order');
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+
+    if (!userId || !token) {
+        alert('Veuillez vous connecter pour accéder à votre panier.');
+        window.location.href = '/frontend/login.html'; // Redirige vers la page de connexion
+        return;
+    }
+
+
+    
+
+    // Initialisez Stripe avec votre clé publique
+    const stripe = Stripe('pk_test_51PLh8v2KLjIvfFirAcho7Nqb1oMOnLD5YsEvK1seTabDTMZ5dBxxcJVGMITjUrjkVVaUSIs3dM3tNOROT3mZEX4E005rxibNSr');
 
     clearCartButton.addEventListener('click', () => {
-        localStorage.removeItem('cart');
+        localStorage.removeItem(`cart_${userId}`);
         renderCart([]);
     });
 
@@ -17,40 +31,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     confirmOrderButton.addEventListener('click', () => {
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
         const selectedAddress = savedAddressesSelect.value;
-
-        if (cart.length === 0) {
-            alert('Le panier est vide');
-            return;
-        }
-
+    
         if (!selectedAddress) {
             alert('Veuillez sélectionner une adresse de livraison');
             return;
         }
-
-        fetch('http://localhost:5500/orders/place-order', {
+    
+        let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
+    
+        fetch(`http://localhost:5500/users/${userId}/cart/checkout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ cart, address: JSON.parse(selectedAddress) })
+            body: JSON.stringify({ address: JSON.parse(selectedAddress), cart })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text) });
+            }
+            return response.json();
+        })
         .then(data => {
-            if (data.message) {
+            if (data.id) {
+                stripe.redirectToCheckout({ sessionId: data.id });
+            } else {
                 alert(data.message);
             }
-            localStorage.removeItem('cart');
-            renderCart([]);
-            addressContainer.style.display = 'none';
         })
         .catch(error => {
             console.error('Erreur lors de la commande:', error);
-            alert('Erreur lors de la commande');
+            alert('Erreur lors de la commande: ' + error.message);
         });
     });
+    
 
     saveAddressButton.addEventListener('click', () => {
         const address = document.getElementById('address').value;
@@ -59,10 +74,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const country = document.getElementById('country').value;
 
         if (address && city && postalCode && country) {
-            let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+            let addresses = JSON.parse(localStorage.getItem(`addresses_${userId}`)) || [];
             const newAddress = { address, city, postalCode, country };
             addresses.push(newAddress);
-            localStorage.setItem('addresses', JSON.stringify(addresses));
+            localStorage.setItem(`addresses_${userId}`, JSON.stringify(addresses));
             populateSavedAddresses();
             alert('Adresse enregistrée avec succès');
         } else {
@@ -71,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function populateSavedAddresses() {
-        let addresses = JSON.parse(localStorage.getItem('addresses')) || [];
+        let addresses = JSON.parse(localStorage.getItem(`addresses_${userId}`)) || [];
         savedAddressesSelect.innerHTML = '<option value="">Sélectionnez une adresse</option>';
         addresses.forEach((addr, index) => {
             const option = document.createElement('option');
@@ -88,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function renderCart() {
         cartItemsContainer.innerHTML = '';
         
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
         let totalPrice = 0; // Initialisation du prix total
 
         if (cart.length === 0) {
@@ -111,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 increaseButton.textContent = '+';
                 increaseButton.addEventListener('click', () => {
                     cart[index].quantity++;
-                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
                     renderCart();
                 });
 
@@ -120,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 decreaseButton.addEventListener('click', () => {
                     if (cart[index].quantity > 1) {
                         cart[index].quantity--;
-                        localStorage.setItem('cart', JSON.stringify(cart));
+                        localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
                         renderCart();
                     }
                 });
@@ -129,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 removeButton.textContent = 'Supprimer';
                 removeButton.addEventListener('click', () => {
                     cart.splice(index, 1);
-                    localStorage.setItem('cart', JSON.stringify(cart));
+                    localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
                     renderCart();
                 });
 
