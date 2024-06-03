@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'); 
+/* Header Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap'); /* Importing a futuristic font */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -5,18 +11,35 @@ body {
     padding: 0;
     height: 100vh;
 }
-
-
-
-/* Header Styles */
 header {
-    background-color: #333;
+    background: linear-gradient(to right, #007991, #78ffd6); /* Vibrant teal gradient */
     color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
 }
+
+header a {
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Slightly wider spacing */
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #fff; }
+    to { text-shadow: 0 0 20px #0ff; }
+}
+
+header a:hover {
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+
 
 .logo img {
     height: 70px;
@@ -45,27 +68,43 @@ nav ul li a:hover {
 .search-bar {
     display: flex;
     align-items: center;
+    background: rgba(255, 255, 255, 0.1); /* Optional: Adds a subtle backdrop */
+    padding: 10px; /* More padding for a better visual */
+    border-radius: 20px; /* More rounded corners for a modern look */
+    backdrop-filter: blur(8px); /* Glassmorphism effect */
 }
 
 .search-bar input {
-    padding: 5px;
-    border: none;
-    border-radius: 3px;
-    margin-right: 5px;
+    flex-grow: 1; /* Ensures the input fills the space */
+    padding: 10px 15px;
+    border: 2px solid transparent; /* Cleaner look with transparent border */
+    border-radius: 15px; /* More rounded */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for interaction */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.search-bar input:focus {
+    background-color: #ffffff; /* Brighter on focus */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on focus */
 }
 
 .search-bar button {
-    padding: 5px 10px;
+    padding: 10px 15px;
     border: none;
-    border-radius: 3px;
-    background-color: #007bff;
+    border-radius: 15px;
+    background: linear-gradient(45deg, #007bff, #0062cc); /* Gradient effect */
     color: #fff;
     cursor: pointer;
+    transition: background 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .search-bar button:hover {
-    background-color: #0056b3;
+    background: linear-gradient(45deg, #0056b3, #004080); /* Darker gradient on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
+
 
 .profile-tab a {
     color: #fff;
@@ -75,12 +114,19 @@ nav ul li a:hover {
 
 
 
-/* Main Styles */
+/* Main Styles *//* Importing a modern font */
 h1 {
     text-align: center;
     margin: 20px 0;
     color: #333;
+    font-family: 'Poppins', sans-serif; /* Ensuring correct spelling */
+    font-size: 48px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
+
+
 
 .filters {
     display: flex;
