@@ -1,4 +1,6 @@
 const db = require('../db');
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 exports.placeOrder = (req, res) => {
     const { cart, address } = req.body;

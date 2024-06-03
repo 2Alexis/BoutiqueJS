@@ -2,6 +2,9 @@ require('dotenv').config();
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Stripe = require('stripe');
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+
 
 const saltRounds = 10;
 const secretKey = process.env.SECRET_KEY;
@@ -71,7 +74,7 @@ exports.login = (req, res) => {
             const token = jwt.sign({ id: user.id }, secretKey, { expiresIn: '1h' });
 
             console.log('Connexion réussie');
-            res.status(200).json({ message: 'Connexion réussie', token });
+            res.status(200).json({ message: 'Connexion réussie', token, userId: user.id });
         });
     });
 };
@@ -101,4 +104,87 @@ exports.profile = (req, res) => {
             res.status(200).json({ user: results[0] });
         });
     });
+};
+exports.addFavorite = (req, res) => {
+    const userId = req.params.userId;
+    const { productId } = req.body;
+
+    const query = 'INSERT INTO favorites (user_id, product_id) VALUES (?, ?)';
+    db.query(query, [userId, productId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erreur lors de l\'ajout aux favoris' });
+        }
+
+        res.status(201).json({ message: 'Produit ajouté aux favoris avec succès' });
+    });
+};
+
+// Supprimer un favori
+exports.removeFavorite = (req, res) => {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const query = 'DELETE FROM favorites WHERE user_id = ? AND product_id = ?';
+    db.query(query, [userId, productId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erreur lors de la suppression du favori' });
+        }
+
+        res.status(200).json({ message: 'Produit retiré des favoris avec succès' });
+    });
+};
+
+// Récupérer les favoris d'un utilisateur
+exports.getFavorites = (req, res) => {
+    const userId = req.params.userId;
+
+    const query = `
+        SELECT p.* FROM products p
+        JOIN favorites f ON p.id = f.product_id
+        WHERE f.user_id = ?
+    `;
+    db.query(query, [userId], (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erreur lors de la récupération des favoris' });
+        }
+
+        res.status(200).json(results);
+    });
+};
+exports.checkout = async (req, res) => {
+    const userId = req.params.userId;
+    const { cart, address } = req.body;
+
+    if (!cart || !Array.isArray(cart) || cart.length === 0) {
+        return res.status(400).json({ message: 'Le panier est vide ou invalide' });
+    }
+
+    if (!address || !address.address || !address.city || !address.postalCode || !address.country) {
+        return res.status(400).json({ message: 'Adresse de livraison invalide' });
+    }
+
+    try {
+        const line_items = cart.map(item => ({
+            price_data: {
+                currency: 'usd',
+                product_data: {
+                    name: item.name,
+                },
+                unit_amount: item.price * 100,
+            },
+            quantity: item.quantity,
+        }));
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            line_items,
+            mode: 'payment',
+            success_url: 'http://127.0.0.1:5500/frontend/success.html',
+            cancel_url: 'http://127.0.0.1:5500/frontend/cancel.html',
+        });
+
+        res.status(200).json({ id: session.id });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur lors de la création de la session de paiement', error: error.message });
+    }
 };
