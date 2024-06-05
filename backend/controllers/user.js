@@ -1,10 +1,10 @@
+// Import the necessary modules and initialize your environment
 require('dotenv').config();
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Stripe = require('stripe');
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
 
 const saltRounds = 10;
 const secretKey = process.env.SECRET_KEY;
@@ -37,7 +37,7 @@ exports.register = (req, res) => {
     });
 };
 
-// Connexion de l'utilisateur
+
 exports.login = (req, res) => {
     const { email, password } = req.body;
 
@@ -79,6 +79,8 @@ exports.login = (req, res) => {
     });
 };
 
+
+
 // Récupérer le profil de l'utilisateur
 exports.profile = (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
@@ -105,6 +107,7 @@ exports.profile = (req, res) => {
         });
     });
 };
+
 exports.addFavorite = (req, res) => {
     const userId = req.params.userId;
     const { productId } = req.body;
@@ -151,6 +154,7 @@ exports.getFavorites = (req, res) => {
         res.status(200).json(results);
     });
 };
+
 exports.checkout = async (req, res) => {
     const userId = req.params.userId;
     const { cart, address } = req.body;
@@ -163,28 +167,93 @@ exports.checkout = async (req, res) => {
         return res.status(400).json({ message: 'Adresse de livraison invalide' });
     }
 
-    try {
-        const line_items = cart.map(item => ({
-            price_data: {
-                currency: 'usd',
-                product_data: {
-                    name: item.name,
+    // Start a database transaction
+    db.beginTransaction(async (err) => {
+        if (err) {
+            return res.status(500).json({ message: 'Erreur lors de la transaction' });
+        }
+
+        try {
+            // Check product quantities
+            let checkQueries = cart.map(item => {
+                return new Promise((resolve, reject) => {
+                    db.query('SELECT quantity FROM products WHERE id = ?', [item.id], (err, results) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        if (results.length === 0 || results[0].quantity < item.quantity) {
+                            return reject(new Error(`Quantité insuffisante de l'article ${item.name}`));
+                        }
+                        resolve();
+                    });
+                });
+            });
+
+            await Promise.all(checkQueries);
+
+            // Proceed with Stripe session creation
+            const line_items = cart.map(item => ({
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: item.name,
+                    },
+                    unit_amount: item.price * 100,
                 },
-                unit_amount: item.price * 100,
-            },
-            quantity: item.quantity,
-        }));
+                quantity: item.quantity,
+            }));
 
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items,
-            mode: 'payment',
-            success_url: 'http://127.0.0.1:5500/frontend/success.html',
-            cancel_url: 'http://127.0.0.1:5500/frontend/cancel.html',
-        });
+            const session = await stripe.checkout.sessions.create({
+                payment_method_types: ['card'],
+                line_items,
+                mode: 'payment',
+                success_url: 'http://127.0.0.1:5500/frontend/success.html',
+                cancel_url: 'http://127.0.0.1:5500/frontend/cancel.html',
+            });
 
-        res.status(200).json({ id: session.id });
-    } catch (error) {
-        res.status(500).json({ message: 'Erreur lors de la création de la session de paiement', error: error.message });
+            // Update product quantities in the database
+            let updateQueries = cart.map(item => {
+                return new Promise((resolve, reject) => {
+                    db.query('UPDATE products SET quantity = quantity - ? WHERE id = ?', [item.quantity, item.id], (err, results) => {
+                        if (err) {
+                            return reject(err);
+                        }
+                        resolve();
+                    });
+                });
+            });
+
+            await Promise.all(updateQueries);
+
+            // Commit the transaction
+            db.commit((err) => {
+                if (err) {
+                    return db.rollback(() => {
+                        res.status(500).json({ message: 'Erreur lors de la confirmation de la commande', error: err.message });
+                    });
+                }
+
+                res.status(200).json({ id: session.id });
+            });
+        } catch (error) {
+            // Rollback the transaction in case of error
+            db.rollback(() => {
+                res.status(500).json({ message: 'Erreur lors de la confirmation de la commande', error: error.message });
+            });
+        }
+    });
+};
+
+exports.validateToken = (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    if (!token) {
+        return res.status(401).json({ message: 'Token manquant' });
     }
+
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Token invalide' });
+        }
+        res.status(200).json({ message: 'Token valide' });
+    });
 };

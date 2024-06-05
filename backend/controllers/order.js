@@ -6,31 +6,27 @@ exports.placeOrder = (req, res) => {
     const { cart, address } = req.body;
 
     if (!cart || !Array.isArray(cart) || cart.length === 0) {
-        res.status(400).json({ message: 'Le panier est vide ou invalide' });
-        return;
+        return res.status(400).json({ message: 'Le panier est vide ou invalide' });
     }
 
     if (!address || !address.address || !address.city || !address.postalCode || !address.country) {
-        res.status(400).json({ message: 'Adresse de livraison invalide' });
-        return;
+        return res.status(400).json({ message: 'Adresse de livraison invalide' });
     }
 
     db.beginTransaction((err) => {
         if (err) {
             console.error('Error starting transaction:', err);
-            res.status(500).json({ message: 'Erreur lors de la création de la transaction' });
-            return;
+            return res.status(500).json({ message: 'Erreur lors de la création de la transaction' });
         }
 
-        let queries = cart.map(item => {
+        let checkQueries = cart.map(item => {
             return new Promise((resolve, reject) => {
-                db.query('UPDATE products SET quantity = quantity - ? WHERE id = ? AND quantity >= ?', [item.quantity, item.id, item.quantity], (err, results) => {
+                db.query('SELECT quantity FROM products WHERE id = ?', [item.id], (err, results) => {
                     if (err) {
-                        console.error('Error updating product quantity:', err);
+                        console.error('Error fetching product quantity:', err);
                         return reject(err);
                     }
-                    if (results.affectedRows === 0) {
-                        console.error(`Insufficient quantity for product ID ${item.id}`);
+                    if (results.length === 0 || results[0].quantity < item.quantity) {
                         return reject(new Error(`Quantité insuffisante pour le produit avec l'ID ${item.id}`));
                     }
                     resolve();
@@ -38,7 +34,22 @@ exports.placeOrder = (req, res) => {
             });
         });
 
-        Promise.all(queries)
+        Promise.all(checkQueries)
+            .then(() => {
+                let updateQueries = cart.map(item => {
+                    return new Promise((resolve, reject) => {
+                        db.query('UPDATE products SET quantity = quantity - ? WHERE id = ?', [item.quantity, item.id], (err, results) => {
+                            if (err) {
+                                console.error('Error updating product quantity:', err);
+                                return reject(err);
+                            }
+                            resolve();
+                        });
+                    });
+                });
+
+                return Promise.all(updateQueries);
+            })
             .then(() => {
                 const orderQuery = 'INSERT INTO orders (address, city, postalCode, country) VALUES (?, ?, ?, ?)';
                 db.query(orderQuery, [address.address, address.city, address.postalCode, address.country], (err, results) => {
