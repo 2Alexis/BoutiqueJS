@@ -15,9 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-
-    
-
     // Initialisez Stripe avec votre clé publique
     const stripe = Stripe('pk_test_51PLh8v2KLjIvfFirAcho7Nqb1oMOnLD5YsEvK1seTabDTMZ5dBxxcJVGMITjUrjkVVaUSIs3dM3tNOROT3mZEX4E005rxibNSr');
 
@@ -32,14 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     confirmOrderButton.addEventListener('click', () => {
         const selectedAddress = savedAddressesSelect.value;
-    
+
         if (!selectedAddress) {
             alert('Veuillez sélectionner une adresse de livraison');
             return;
         }
-    
+
         let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
-    
+
         fetch(`http://localhost:5500/users/${userId}/cart/checkout`, {
             method: 'POST',
             headers: {
@@ -55,6 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(data => {
             if (data.id) {
+                clearCart(); // Clear the cart after successful order
                 stripe.redirectToCheckout({ sessionId: data.id });
             } else {
                 alert(data.message);
@@ -65,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
             alert('Erreur lors de la commande: ' + error.message);
         });
     });
-    
 
     saveAddressButton.addEventListener('click', () => {
         const address = document.getElementById('address').value;
@@ -96,13 +93,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    populateSavedAddresses();
+    function clearCart() {
+        localStorage.removeItem(`cart_${userId}`);
+        renderCart([]);
+    }
 
+    populateSavedAddresses();
     renderCart();
 
     function renderCart() {
         cartItemsContainer.innerHTML = '';
-        
+
         let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
         let totalPrice = 0; // Initialisation du prix total
 

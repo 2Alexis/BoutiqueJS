@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+    if (!checkTokenValidity()) {
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const sneakerId = urlParams.get('id');
     const userId = localStorage.getItem('userId');
@@ -80,19 +84,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function checkAndAddToFavorites(product) {
-        fetch(`http://localhost:5500/users/${userId}/favorites`)
-            .then(response => response.json())
-            .then(favorites => {
-                const alreadyFavorite = favorites.some(fav => fav.id === product.id);
-                if (alreadyFavorite) {
-                    alert('Ce produit est déjà dans vos favoris.');
-                } else {
-                    addToFavorites(product);
-                }
-            })
-            .catch(error => {
-                console.error('Erreur lors de la vérification des favoris:', error);
-            });
+        fetch(`http://localhost:5500/users/${userId}/favorites`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => response.json())
+        .then(favorites => {
+            const alreadyFavorite = favorites.some(fav => fav.id === product.id);
+            if (alreadyFavorite) {
+                alert('Ce produit est déjà dans vos favoris.');
+            } else {
+                addToFavorites(product);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur lors de la vérification des favoris:', error);
+        });
     }
 
     function addToFavorites(product) {
@@ -144,3 +152,37 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(`${quantity} ${product.name} a été ajouté au panier.`);
     }
 });
+
+function checkTokenValidity() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Veuillez vous connecter pour accéder à cette page.');
+        window.location.href = '/frontend/login.html';
+        return false;
+    }
+
+    return fetch('http://localhost:5500/users/validate-token', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            alert('Votre session a expiré. Veuillez vous reconnecter.');
+            window.location.href = '/frontend/login.html';
+            return false;
+        }
+        return true;
+    })
+    .catch(error => {
+        console.error('Erreur lors de la validation du token:', error);
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        window.location.href = '/frontend/login.html';
+        return false;
+    });
+}

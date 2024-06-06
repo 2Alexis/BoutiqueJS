@@ -22,10 +22,21 @@
         <button type="submit">Rechercher</button>
     </div>
     <div class="profile-tab">
-        <a href="#">Profil</a>
+        <div id="profile-info"></div>
+        <div class="burger-menu">
+            <div class="burger-icon" id="burger-icon">
+                &#9776;
+            </div>
+            <div class="dropdown-content" id="dropdown-content">
+                <a id="login-link" href="login.html">Connexion</a>
+                <a id="register-link" href="register.html">Inscription</a>
+                <a id="logout-link" href="#" style="display: none;">Déconnexion</a>
+            </div>
+        </div>
     </div>
 </header>
-
+<script src="style/js/navbar.js"></script>
+<script src="style/js/burger.js"></script>
 <body>
     <div id="favorites-list">
       

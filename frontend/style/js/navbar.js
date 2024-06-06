@@ -6,29 +6,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const token = localStorage.getItem('token');
     if (token) {
-        fetch('http://localhost:5500/users/profile', {
+        fetch('http://localhost:5500/users/validate-token', {
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
         .then(response => response.json())
         .then(data => {
-            if (data.user) {
-                profileInfo.textContent = `Bienvenue, ${data.user.username}`;
-                loginLink.style.display = 'none';
-                registerLink.style.display = 'none';
-                logoutLink.style.display = 'block';
+            if (data.message === 'Token valide') {
+                fetch('http://localhost:5500/users/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.user) {
+                        profileInfo.textContent = `Bienvenue, ${data.user.username}`;
+                        loginLink.style.display = 'none';
+                        registerLink.style.display = 'none';
+                        logoutLink.style.display = 'block';
+                    } else {
+                        clearLocalStorage();
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération du profil utilisateur:', error);
+                    clearLocalStorage();
+                });
             } else {
-                loginLink.style.display = 'block';
-                registerLink.style.display = 'block';
-                logoutLink.style.display = 'none';
+                clearLocalStorage();
             }
         })
         .catch(error => {
-            console.error('Erreur lors de la récupération du profil utilisateur:', error);
-            loginLink.style.display = 'block';
-            registerLink.style.display = 'block';
-            logoutLink.style.display = 'none';
+            console.error('Erreur lors de la validation du token:', error);
+            clearLocalStorage();
         });
     } else {
         loginLink.style.display = 'block';
@@ -37,7 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     logoutLink.addEventListener('click', () => {
-        localStorage.removeItem('token');
+        clearLocalStorage();
         window.location.href = '/frontend/index.html';
     });
+
+    function clearLocalStorage() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        profileInfo.textContent = '';
+        loginLink.style.display = 'block';
+        registerLink.style.display = 'block';
+        logoutLink.style.display = 'none';
+    }
 });
