@@ -20,6 +20,7 @@ body {
 }
 
 header {
+    scroll-snap-align: 1;
     width: 100%;
     background-color: var(--white);
     display: flex;
