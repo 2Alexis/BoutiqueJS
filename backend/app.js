@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const sneakersRoutes = require('./routes/sneakers');
-const ordersRoutes = require('./routes/orders');
+
 const userRoutes = require('./routes/users');
 
 const app = express();
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Utilisation des routes
 app.use('/sneakers', sneakersRoutes);
-app.use('/orders', ordersRoutes);
+
 app.use('/users', userRoutes);
 
 // Démarrage du serveur
