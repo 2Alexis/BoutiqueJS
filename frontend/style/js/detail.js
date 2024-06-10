@@ -28,13 +28,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('sneaker-sizes').textContent = `Tailles disponibles: ${sneaker.sizes}`;
                 document.getElementById('sneaker-description').textContent = `Description: ${sneaker.description}`;
 
-                const sneakerImagesContainer = document.getElementById('sneaker-images');
-                sneaker.image_urls.split(',').forEach(imageUrl => {
-                    const img = document.createElement('img');
-                    img.src = `style/img/${imageUrl.trim()}`;
-                    img.alt = 'Sneaker';
-                    sneakerImagesContainer.appendChild(img);
-                });
+                const carouselInner = document.getElementById('carousel-inner');
+                const imageUrls = [
+                    'sneaker1_1.png',
+                    'sneaker1_2.png',
+                    'sneaker1_3.png',
+                    'sneaker1_1_purple.png',
+                    'sneaker1_2_purple.png',
+                    'sneaker1_3_purple.png'
+                ];
+                carouselInner.innerHTML = imageUrls.map((imageUrl, index) => `
+                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                        <img src="style/img/${imageUrl}" alt="Sneaker Image ${index + 1}">
+                    </div>
+                `).join('');
+
+                showSlide(0);
 
                 const addToFavoritesButton = document.getElementById('add-to-favorites');
                 const removeFromFavoritesButton = document.getElementById('remove-from-favorites');
@@ -150,6 +159,31 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
         
         alert(`${quantity} ${product.name} a été ajouté au panier.`);
+    }
+
+    function showSlide(index) {
+        const slides = document.querySelectorAll('.carousel-item');
+        slides.forEach((slide, i) => {
+            slide.style.display = (i === index) ? 'block' : 'none';
+        });
+    }
+
+    let currentIndex = 0;
+
+    function nextSlide() {
+        currentIndex++;
+        if (currentIndex >= document.querySelectorAll('.carousel-item').length) {
+            currentIndex = 0;
+        }
+        showSlide(currentIndex);
+    }
+
+    function prevSlide() {
+        currentIndex--;
+        if (currentIndex < 0) {
+            currentIndex = document.querySelectorAll('.carousel-item').length - 1;
+        }
+        showSlide(currentIndex);
     }
 });
 

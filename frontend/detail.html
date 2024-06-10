@@ -9,7 +9,7 @@
 <body>
     <header>
         <div class="logo">
-            <a href="/frontend/index.html"> <img src="style/img/shoes-logo.png" alt="Logo"></a>
+            <a href="/frontend/index.html"><img src="style/img/shoes-logo.png" alt="Logo"></a>
         </div>
         <nav>
             <ul>
@@ -18,13 +18,10 @@
                 <li><a class="btn-fav" href="favorites.html">Voir les favoris</a></li>
             </ul>
         </nav>
-     
         <div class="profile-tab">
             <div id="profile-info"></div>
             <div class="burger-menu">
-                <div class="burger-icon" id="burger-icon">
-                    &#9776;
-                </div>
+                <div class="burger-icon" id="burger-icon">&#9776;</div>
                 <div class="dropdown-content" id="dropdown-content">
                     <a id="login-link" href="login.html">Connexion</a>
                     <a id="register-link" href="register.html">Inscription</a>
@@ -38,37 +35,37 @@
     <script src="style/js/burger.js"></script>
 
     <a href="index.html" id="home-link"><img src="style/img/fleche-gauche.png" alt="Retour"></a>
-  
+
     <div class="sneaker-details">
+        <div id="sneaker-images" class="carousel">
+            <div class="carousel-inner" id="carousel-inner"></div>
+            <button class="carousel-control-prev" onclick="prevSlide()">&#10094;</button>
+            <button class="carousel-control-next" onclick="nextSlide()">&#10095;</button>
+        </div>
        
         <h2 id="sneaker-name"></h2>
         <div id="fav-description">
-           
             <div id="sneakers-description">
-            <p id="sneaker-price"></p>
-            <p id="sneaker-colors"></p>
-            <p id="sneaker-reduction"></p>
-            <p id="sneaker-available"></p>
-            <p id="sneaker-sizes"></p>
-            
-
-        </div>
-        <div id="favoris">
-            <button id="add-to-favorites" style="display: none;"><img src = "style/img/coeur.png"></button>
-            <button id="remove-from-favorites" style="display: none;"><img src = "style/img/coeur_brise.png"></button>
+                <p id="sneaker-price"></p>
+                <p id="sneaker-colors"></p>
+                <p id="sneaker-reduction"></p>
+                <p id="sneaker-available"></p>
+                <p id="sneaker-sizes"></p>
+            </div>
+            <div id="favoris">
+                <button id="add-to-favorites" style="display: none;"><img src="style/img/coeur.png"></button>
+                <button id="remove-from-favorites" style="display: none;"><img src="style/img/coeur_brise.png"></button>
             </div>
         </div>
-        <div id="sneaker-images"></div>
         <p id="sneaker-description"></p>
         
-    <div id="sneaker-cart">
-        <label for="quantity">Quantité :</label>
-        <input type="number" id="quantity" min="1" value="1">
-        <button id="add-to-cart">Ajouter au panier</button>
-    </div>
+        <div id="sneaker-cart">
+            <label for="quantity">Quantité :</label>
+            <input type="number" id="quantity" min="1" value="1">
+            <button id="add-to-cart">Ajouter au panier</button>
+        </div>
     </div>
     
     <script type="text/javascript" src="style/js/detail.js"></script>
-  
 </body>
 </html>

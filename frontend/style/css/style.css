@@ -657,3 +657,83 @@ body.payment-page {
 .burger-menu .show {
     display: block;
 }
+.swiper-container {
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+}
+
+.sneaker-item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.sneaker-item .swiper-pagination,
+.sneaker-item .swiper-button-next,
+.sneaker-item .swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.sneaker-item .swiper-pagination {
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.sneaker-item .swiper-button-next {
+    right: 10px;
+}
+
+.sneaker-item .swiper-button-prev {
+    left: 10px;
+}
+.carousel {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.carousel-item {
+    min-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.carousel-item img {
+    width: 100%;
+    display: block;
+}
+
+.carousel-item:not(.active) {
+    display: none;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+}
+
+.carousel-control-prev {
+    left: 0;
+}
+
+.carousel-control-next {
+    right: 0;
+}
+
+

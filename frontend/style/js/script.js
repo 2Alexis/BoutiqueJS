@@ -86,10 +86,10 @@ function getSneakers(query = '') {
             console.error("Erreur lors de la récupération des données :", error);
         });
 }
-
 function displaySneakers(sneakersData) {
     const sneakersContainer = document.getElementById('sneakers');
-    sneakersContainer.innerHTML = ''; // Effacer le contenu précédent
+    sneakersContainer.innerHTML = ''; // Clear previous content
+
     sneakersData.forEach(sneaker => {
         const sneakerDiv = document.createElement('div');
         sneakerDiv.classList.add('sneaker-item');
@@ -111,19 +111,25 @@ function displaySneakers(sneakersData) {
 
         const imageUrls = sneaker.image_urls.split(',');
 
-        // Boucler à travers toutes les images de la sneaker
-        imageUrls.forEach(imageUrl => {
-            // Créer un élément d'image pour chaque image
-            const imgElement = document.createElement('img');
-            imgElement.src = `style/img/${imageUrl.trim()}`; // Utiliser le chemin de l'image
-            imgElement.alt = sneaker.name;
+        const imgElement = document.createElement('img');
+        imgElement.src = `style/img/${imageUrls[0].trim()}`;
+        imgElement.alt = sneaker.name;
 
-            sneakerDiv.appendChild(nameElement);
-            sneakerDiv.appendChild(priceElement);
-            sneakerDiv.appendChild(imgElement);
+        // Set hover effect to change image to the second one
+        sneakerDiv.addEventListener('mouseenter', () => {
+            if (imageUrls[1]) {
+                imgElement.src = `style/img/${imageUrls[1].trim()}`;
+            }
         });
 
-        // Ajout de l'écouteur d'événement sur le div de la chaussure
+        sneakerDiv.addEventListener('mouseleave', () => {
+            imgElement.src = `style/img/${imageUrls[0].trim()}`;
+        });
+
+        sneakerDiv.appendChild(nameElement);
+        sneakerDiv.appendChild(priceElement);
+        sneakerDiv.appendChild(imgElement);
+
         sneakerDiv.addEventListener("click", () => {
             window.location.href = `detail.html?id=${sneaker.id}`;
         });
@@ -131,3 +137,4 @@ function displaySneakers(sneakersData) {
         sneakersContainer.appendChild(sneakerDiv);
     });
 }
+
