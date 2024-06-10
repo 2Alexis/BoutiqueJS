@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
+    if (!checkTokenValidity()) {
+        return;
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const sneakerId = urlParams.get('id');
     const userId = localStorage.getItem('userId');
@@ -12,18 +15,18 @@ document.addEventListener("DOMContentLoaded", () => {
                 const sneaker = data;
                 document.getElementById('sneaker-name').textContent = sneaker.name;
 
-                let priceText = `Prix : ${sneaker.price}$`;
+                let priceText = `Prix: ${sneaker.price}$`;
                 if (sneaker.reduction > 0) {
                     const discountedPrice = (sneaker.price * (1 - sneaker.reduction / 100)).toFixed(2);
-                    priceText = `Prix : <span class="original-price">${sneaker.price}$</span> <span class="discounted-price">${discountedPrice}$</span>`;
+                    priceText = `Prix: <span class="original-price">${sneaker.price}$</span> <span class="discounted-price">${discountedPrice}$</span>`;
                 }
-                document.getElementById('sneaker-sexe').textContent = `Paire de chaussure ${sneaker.sex}`;
+
                 document.getElementById('sneaker-price').innerHTML = priceText;
-                document.getElementById('sneaker-colors').textContent = `Couleurs : ${sneaker.colors}`;
-                document.getElementById('sneaker-reduction').textContent = `Réduction : ${sneaker.reduction}%`;
-                document.getElementById('sneaker-available').textContent = `Disponible : ${sneaker.availability ? 'Oui' : 'Non'}`;
-                document.getElementById('sneaker-sizes').textContent = `Tailles disponibles : ${sneaker.sizes}`;
-                document.getElementById('sneaker-description').textContent = `Description : ${sneaker.description}`;
+                document.getElementById('sneaker-colors').textContent = `Couleurs: ${sneaker.colors}`;
+                document.getElementById('sneaker-reduction').textContent = `Réduction: ${sneaker.reduction}%`;
+                document.getElementById('sneaker-available').textContent = `Disponible: ${sneaker.availability ? 'Oui' : 'Non'}`;
+                document.getElementById('sneaker-sizes').textContent = `Tailles disponibles: ${sneaker.sizes}`;
+                document.getElementById('sneaker-description').textContent = `Description: ${sneaker.description}`;
 
                 const sneakerImagesContainer = document.getElementById('sneaker-images');
                 sneaker.image_urls.split(',').forEach(imageUrl => {
