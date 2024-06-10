@@ -1,64 +1,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap'); 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+/* Header Styles */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap'); /* Importing a futuristic font */
 
-/* Root Variables for Colors */
-:root {
-    --primary-color: #007bff;
-    --secondary-color: #0062cc;
-    --hover-primary: #0056b3;
-    --hover-secondary: #004080;
-    --accent-color: #007991;
-    --accent-gradient: #78ffd6;
-    --danger-color: #dc3545;
-    --danger-hover: #c82333;
-    --success-color: #28a745;
-    --success-hover: #218838;
-    --white: #ffffff;
-    --black: #000000;
-    --grey: #f7f7f7;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
-/* Universal Font Family */
-* {
-    font-family: 'Poppins', Arial, sans-serif;
-}
-
-/* Body Styles */
 body {
-    background-color: var(--grey);
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
     margin: 0;
     padding: 0;
     height: 100vh;
 }
-
-/* Header Styles */
 header {
-    background: linear-gradient(to right, var(--accent-color), var(--accent-gradient));
-    color: var(--white);
+    background: linear-gradient(to right, #007991, #78ffd6); /* Vibrant teal gradient */
+    color: #fff;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     border-radius: 10px;
     backdrop-filter: blur(5px);
-    font-family: 'Orbitron', sans-serif;
+    font-family: 'Orbitron', sans-serif; /* Futuristic font */
 }
 
 header a {
-    color: var(--white);
+    color: #fff;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.5px; /* Slightly wider spacing */
 }
 
 @keyframes glow {
-    from { text-shadow: 0 0 10px var(--white); }
+    from { text-shadow: 0 0 10px #fff; }
     to { text-shadow: 0 0 20px #0ff; }
 }
 
 header a:hover {
     animation: glow 1s ease-in-out infinite alternate;
 }
+
+
 
 .logo img {
     height: 70px;
@@ -76,7 +57,7 @@ nav ul li {
 
 nav ul li a {
     font-size: 19px;
-    color: var(--white);
+    color: #fff;
     text-decoration: none;
 }
 
@@ -87,98 +68,109 @@ nav ul li a:hover {
 .search-bar {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    border-radius: 20px;
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.1); /* Optional: Adds a subtle backdrop */
+    padding: 10px; /* More padding for a better visual */
+    border-radius: 20px; /* More rounded corners for a modern look */
+    backdrop-filter: blur(8px); /* Glassmorphism effect */
 }
 
 .search-bar input {
-    flex-grow: 1;
+    flex-grow: 1; /* Ensures the input fills the space */
     padding: 10px 15px;
-    border: 2px solid transparent;
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.5);
-    transition: background-color 0.3s, box-shadow 0.3s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent; /* Cleaner look with transparent border */
+    border-radius: 15px; /* More rounded */
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for interaction */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
 }
 
 .search-bar input:focus {
-    background-color: var(--white);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff; /* Brighter on focus */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on focus */
 }
 
 .search-bar button {
     padding: 10px 15px;
     border: none;
     border-radius: 15px;
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: var(--white);
+    background: linear-gradient(45deg, #007bff, #0062cc); /* Gradient effect */
+    color: #fff;
     cursor: pointer;
-    transition: background 0.3s, transform 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 .search-bar button:hover {
-    background: linear-gradient(45deg, var(--hover-primary), var(--hover-secondary));
-    transform: translateY(-2px);
+    background: linear-gradient(45deg, #0056b3, #004080); /* Darker gradient on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
 }
 
+
 .profile-tab a {
-    color: var(--white);
+    color: #fff;
     text-decoration: none;
 }
 
+
+
+
+/* Main Styles *//* Importing a modern font */
 h1 {
     text-align: center;
     margin: 20px 0;
     color: #333;
+    font-family: 'Poppins', sans-serif; /* Ensuring correct spelling */
     font-size: 48px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
 
-/* Filters Styles */
+
+
 .filters {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Par défaut, en colonne pour les petits écrans */
     justify-content: center;
     align-items: center;
-    background-color: var(--white);
-    transition: all 0.3s ease;
+
+    background-color: #ffffff; /* Fond blanc pour contraste et propreté */
+
+    transition: all 0.3s ease; /* Transition douce pour les effets */
 }
+
+
 
 @media (min-width: 600px) {
     .filters {
-        flex-direction: row;
-        gap: 20px;
+        flex-direction: row; /* En ligne pour les écrans plus larges */
+        gap: 20px; /* Plus d'espacement sur les grands écrans */
     }
 }
 
 .filters label {
     margin-right: 5px;
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 14px;
+    font-weight: bold; /* Texte en gras pour les labels */
+    color: #007bff; /* Couleur bleue pour les labels */
+    font-size: 14px; /* Taille de police ajustée */
 }
 
 .filters select {
-    padding: 8px 12px;
+    padding: 8px 12px; /* Plus de padding pour un confort accru */
     border-radius: 5px;
-    border: 1px solid var(--border-color);
-    font-size: 16px;
-    background-color: var(--bg-select);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #ccc;
+    font-size: 16px; /* Taille de police augmentée pour une meilleure lisibilité */
+    background-color: #f9f9f9; /* Fond léger pour les champs de sélection */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transition douce pour les effets */
 }
 
 .filters select:focus {
-    border-color: var(--primary-color);
+    border-color: #007bff; /* Bordure bleue au focus */
     outline: none;
-    box-shadow: 0 0 5px var(--focus-shadow);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Ombre légère au focus */
 }
 
-/* Sneakers Container Styles */
+
 .sneakers-container {
     display: flex;
     flex-wrap: wrap;
@@ -187,11 +179,10 @@ h1 {
 }
 
 .sneaker-item {
-    background-color: var(--white);
+    background-color: #fff;
     border-radius: 5px;
-    border: 1px solid #ccc; /* Ajout de la bordure grise */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: calc(25% - 20px); /* Réduction de la taille */
+    width: calc(33.333% - 20px);
     text-align: center;
     cursor: pointer;
     transition: transform 0.2s;
@@ -211,13 +202,12 @@ h1 {
 
 .sneaker-item h3 {
     margin: 10px 0;
-    font-size: 1em; /* Réduction de la taille de la police */
+    font-size: 1.2em;
 }
 
 .sneaker-item p {
     margin: 10px 0;
-    color: var(--primary-color);
-    font-size: 0.9em; /* Réduction de la taille de la police */
+    color: #007bff;
 }
 
 #home-link {
@@ -232,10 +222,9 @@ h1 {
     vertical-align: middle;
 }
 
-
 /* Sneaker Details Styles */
 .sneaker-details {
-    background-color: var(--white);
+    background-color: #fff;
     padding: 20px;
     margin: 20px auto;
     max-width: 800px;
@@ -318,29 +307,31 @@ h1 {
 
 #sneaker-cart button {
     padding: 10px 20px;
-    background-color: var(--success-color);
-    color: var(--white);
+    background-color: #28a745;
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
 #sneaker-cart button:hover {
-    background-color: var(--success-hover);
+    background-color: #218838;
 }
 
-/* Cart Container Styles */
+
+
+
+/* Cart Styles */
 .cart-container {
     max-width: 800px;
     margin: 40px auto;
     padding: 20px;
-    background-color: var(--white);
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.cart-container h1,
-.cart-container h2 {
+.cart-container h1, .cart-container h2 {
     text-align: center;
     margin-bottom: 20px;
     color: #333;
@@ -370,30 +361,26 @@ h1 {
     color: #555;
 }
 
-.cart-item button,
-button.quantity-control,
-button.remove-item {
+.cart-item button, button.quantity-control, button.remove-item {
     padding: 5px 10px;
     margin: 0 2px;
     border: none;
     border-radius: 5px;
-    background-color: var(--primary-color);
-    color: var(--white);
+    background-color: #007bff;
+    color: #fff;
     cursor: pointer;
 }
 
-.cart-item button:hover,
-button.quantity-control:hover,
-button.remove-item:hover {
-    background-color: var(--hover-primary);
+.cart-item button:hover, button.quantity-control:hover, button.remove-item:hover {
+    background-color: #0056b3;
 }
 
 button.remove-item {
-    background-color: var(--danger-color);
+    background-color: #dc3545;
 }
 
 button.remove-item:hover {
-    background-color: var(--danger-hover);
+    background-color: #c82333;
 }
 
 .total {
@@ -403,8 +390,7 @@ button.remove-item:hover {
     color: #333;
 }
 
-#clear-cart,
-#checkout {
+#clear-cart, #checkout {
     display: inline-block;
     padding: 10px 20px;
     margin: 10px 5px;
@@ -415,24 +401,26 @@ button.remove-item:hover {
 }
 
 #clear-cart {
-    background-color: var(--danger-color);
-    color: var(--white);
+    background-color: #dc3545;
+    color: #fff;
 }
 
 #clear-cart:hover {
-    background-color: var(--danger-hover);
+    background-color: #c82333;
 }
 
 #checkout {
-    background-color: var(--success-color);
-    color: var(--white);
+    background-color: #28a745;
+    color: #fff;
 }
 
 #checkout:hover {
-    background-color: var(--success-hover);
+    background-color: #218838;
 }
 
-/* Favorites List Styles */
+
+
+/* Favoris Styles */
 #favorites-list {
     display: flex;
     flex-wrap: wrap;
@@ -443,13 +431,13 @@ button.remove-item:hover {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
-    margin: 10px;
+    margin: 10px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #f9f9f9;
-    width: calc(25% - 20px);
-    box-sizing: border-box;
+    width: calc(25% - 20px); /* Set width to 25% minus the margin */
+    box-sizing: border-box; /* Ensure padding and border are included in the width */
 }
 
 .sneaker-fav-info {
@@ -485,17 +473,16 @@ button.remove-item:hover {
 }
 
 .add-to-cart {
-    background-color: var(--success-color);
-    color: var(--white);
+    background-color: #28a745;
+    color: #fff;
 }
 
 .remove-from-favorites {
-    background-color: var(--danger-color);
-    color: var(--white);
+    background-color: #dc3545;
+    color: #fff;
 }
 
-.add-to-cart:hover,
-.remove-from-favorites:hover {
+.add-to-cart:hover, .remove-from-favorites:hover {
     opacity: 0.8;
 }
 
@@ -511,7 +498,7 @@ button.remove-item:hover {
     margin: 20px auto;
     padding: 10px 20px;
     background-color: #ff4d4d;
-    color: var(--white);
+    color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -535,6 +522,10 @@ button.remove-item:hover {
     font-weight: bold;
     color: green;
 }
+
+
+
+
 
 /* Address Form Styles */
 .address-form {
@@ -567,7 +558,7 @@ button.remove-item:hover {
 }
 
 .address-form input:focus {
-    border-color: var(--primary-color);
+    border-color: #007BFF;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
@@ -581,6 +572,10 @@ button.remove-item:hover {
     margin: 10px 0;
 }
 
+
+
+
+
 /* Payment Page Styles */
 body.payment-page {
     display: flex;
@@ -589,7 +584,7 @@ body.payment-page {
 }
 
 .payment-container {
-    background-color: var(--white);
+    background-color: #fff;
     padding: 20px 40px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -609,8 +604,8 @@ body.payment-page {
 }
 
 .payment-container a {
-    color: var(--white);
-    background-color: var(--primary-color);
+    color: #fff;
+    background-color: #007BFF;
     padding: 10px 20px;
     text-decoration: none;
     border-radius: 4px;
@@ -618,8 +613,11 @@ body.payment-page {
 }
 
 .payment-container a:hover {
-    background-color: var(--hover-primary);
+    background-color: #0056b3;
 }
+
+
+
 
 /* Burger Menu Styles */
 .burger-menu {
@@ -637,14 +635,14 @@ body.payment-page {
     display: none;
     position: absolute;
     right: 0;
-    background-color: var(--white);
+    background-color: white;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
     width: 200px;
 }
 
 .dropdown-content a {
-    color: var(--black);
+    color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
