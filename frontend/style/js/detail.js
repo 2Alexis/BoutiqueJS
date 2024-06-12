@@ -1,7 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    if (!checkTokenValidity()) {
-        return;
-    }
 
     const urlParams = new URLSearchParams(window.location.search);
     const sneakerId = urlParams.get('id');
