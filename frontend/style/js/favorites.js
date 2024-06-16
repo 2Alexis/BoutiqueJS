@@ -51,13 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 productInfo.appendChild(availableParagraph);
 
                 productElement.appendChild(productInfo);
-                product.image_urls.split(',').forEach(imageUrl => {
-                    const img = document.createElement('img');
-                    img.src = `style/img/${imageUrl.trim()}`;
-                    img.alt = 'Sneaker';
-                    img.classList.add('sneaker-img');
-                    productElement.appendChild(img);
-                });
+
+                const firstImageUrl = product.image_urls.split(',')[0].trim();
+                const img = document.createElement('img');
+                img.src = `style/img/${firstImageUrl}`;
+                img.alt = 'Sneaker';
+                img.classList.add('sneaker-img');
+                productElement.appendChild(img);
 
                 const productBtn = document.createElement('div');
                 productBtn.classList.add('sneaker-btn-container');

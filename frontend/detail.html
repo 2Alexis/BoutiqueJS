@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Details de la sneaker</title>
     <link rel="stylesheet" href="style/css/style.css">
+    <style>
+        #fav-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        #fav-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        #fav-button.add-fav img {
+            content: url('style/img/coeur.png');
+        }
+
+        #fav-button.add-fav img:hover {
+            content: url('style/img/coeur_vert.png');
+        }
+
+        #fav-button.remove-fav img {
+            content: url('style/img/coeur_brise.png');
+        }
+
+        #fav-button.remove-fav img:hover {
+            content: url('style/img/coeur_rouge.png');
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -54,8 +83,7 @@
                 <p id="sneaker-sizes"></p>
             </div>
             <div id="favoris">
-                <button id="add-to-favorites" style="display: none;"><img src="style/img/coeur.png"></button>
-                <button id="remove-from-favorites" style="display: none;"><img src="style/img/coeur_brise.png"></button>
+                <button id="fav-button" class="add-fav" style="display: none;"><img src="style/img/coeur.png" alt="Ajouter aux favoris"></button>
             </div>
         </div>
         <p id="sneaker-description"></p>
@@ -63,8 +91,13 @@
         <div id="sneaker-cart">
             <label for="quantity">Quantité :</label>
             <input type="number" id="quantity" min="1" value="1">
+            <label for="size">Taille :</label>
+            <select id="size"></select>
+            <label for="color">Couleur :</label>
+            <select id="color"></select>
             <button id="add-to-cart">Ajouter au panier</button>
         </div>
+        
     </div>
     
     <script type="text/javascript" src="style/js/detail.js"></script>

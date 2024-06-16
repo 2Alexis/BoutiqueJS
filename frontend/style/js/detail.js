@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     const urlParams = new URLSearchParams(window.location.search);
     const sneakerId = urlParams.get('id');
     const userId = localStorage.getItem('userId');
@@ -23,48 +22,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById('sneaker-reduction').textContent = `Réduction: ${sneaker.reduction}%`;
                 document.getElementById('sneaker-available').textContent = `Disponible: ${sneaker.availability ? 'Oui' : 'Non'}`;
                 document.getElementById('sneaker-sizes').textContent = `Tailles disponibles: ${sneaker.sizes}`;
-                document.getElementById('sneaker-description').textContent = `Description: ${sneaker.description}`;
 
-                const carouselInner = document.getElementById('carousel-inner');
-                const imageUrls = [
-                    'sneaker1_1.png',
-                    'sneaker1_2.png',
-                    'sneaker1_3.png',
-                    'sneaker1_1_purple.png',
-                    'sneaker1_2_purple.png',
-                    'sneaker1_3_purple.png'
-                ];
-                carouselInner.innerHTML = imageUrls.map((imageUrl, index) => `
-                    <div class="carousel-item ${index === 0 ? 'active' : ''}">
-                        <img src="style/img/${imageUrl}" alt="Sneaker Image ${index + 1}">
-                    </div>
-                `).join('');
-
-                showSlide(0);
-
-                const addToFavoritesButton = document.getElementById('add-to-favorites');
-                const removeFromFavoritesButton = document.getElementById('remove-from-favorites');
-                const addToCartButton = document.getElementById('add-to-cart');
-
-                addToFavoritesButton.style.display = 'block';
-                removeFromFavoritesButton.style.display = 'block';
-                addToCartButton.style.display = 'block';
-
-                addToFavoritesButton.addEventListener('click', () => {
-                    if (!userId || !token) {
-                        alert('Veuillez vous connecter pour ajouter des articles aux favoris.');
-                        window.location.href = '/frontend/login.html'; // Redirige vers la page de connexion
-                    } else {
-                        checkAndAddToFavorites(sneaker);
-                    }
+                const sneakerSizesSelect = document.getElementById('size');
+                sneaker.sizes.split(',').forEach(size => {
+                    const option = document.createElement('option');
+                    option.value = size.trim();
+                    option.textContent = size.trim();
+                    sneakerSizesSelect.appendChild(option);
                 });
 
-                removeFromFavoritesButton.addEventListener('click', () => {
+                const sneakerColorsSelect = document.getElementById('color');
+                sneaker.colors.split(',').forEach(color => {
+                    const option = document.createElement('option');
+                    option.value = color.trim();
+                    option.textContent = color.trim();
+                    sneakerColorsSelect.appendChild(option);
+                });
+
+                document.getElementById('sneaker-description').textContent = `Description: ${sneaker.description}`;
+
+                const sneakerImagesContainer = document.getElementById('carousel-inner');
+                sneaker.image_urls.split(',').forEach((imageUrl, index) => {
+                    const img = document.createElement('img');
+                    img.src = `style/img/${imageUrl.trim()}`;
+                    img.alt = 'Sneaker';
+                    if (index === 0) img.classList.add('active');
+                    sneakerImagesContainer.appendChild(img);
+                });
+
+                const favButton = document.getElementById('fav-button');
+                const addToCartButton = document.getElementById('add-to-cart');
+
+                favButton.style.display = 'block';
+                addToCartButton.style.display = 'block';
+
+                checkAndToggleFavoriteButton(sneaker);
+
+                favButton.addEventListener('click', () => {
                     if (!userId || !token) {
-                        alert('Veuillez vous connecter pour retirer des articles des favoris.');
+                        alert('Veuillez vous connecter pour gérer les favoris.');
                         window.location.href = '/frontend/login.html'; // Redirige vers la page de connexion
                     } else {
-                        removeFromFavorites(sneaker);
+                        toggleFavorite(sneaker);
                     }
                 });
 
@@ -73,9 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         alert('Veuillez vous connecter pour ajouter des articles au panier.');
                         window.location.href = '/frontend/login.html'; // Redirige vers la page de connexion
                     } else {
-                        addToCart(sneaker, parseInt(document.getElementById('quantity').value));
+                        const selectedSize = document.getElementById('size').value;
+                        const selectedColor = document.getElementById('color').value;
+                        addToCart(sneaker, parseInt(document.getElementById('quantity').value), selectedSize, selectedColor);
                     }
                 });
+
+                // Initialiser le carrousel
+                showSlide(currentSlideIndex);
             })
             .catch(error => {
                 console.log("Erreur : " + error);
@@ -89,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         history.back(); 
     });
 
-    function checkAndAddToFavorites(product) {
+    function checkAndToggleFavoriteButton(product) {
         fetch(`http://localhost:5500/users/${userId}/favorites`, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -99,14 +103,36 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(favorites => {
             const alreadyFavorite = favorites.some(fav => fav.id === product.id);
             if (alreadyFavorite) {
-                alert('Ce produit est déjà dans vos favoris.');
+                setFavoriteButtonState(true);
             } else {
-                addToFavorites(product);
+                setFavoriteButtonState(false);
             }
         })
         .catch(error => {
             console.error('Erreur lors de la vérification des favoris:', error);
         });
+    }
+
+    function setFavoriteButtonState(isFavorite) {
+        const favButton = document.getElementById('fav-button');
+        if (isFavorite) {
+            favButton.classList.add('remove-fav');
+            favButton.classList.remove('add-fav');
+            favButton.innerHTML = '<img src="style/img/coeur_brise.png" alt="Retirer des favoris">';
+        } else {
+            favButton.classList.add('add-fav');
+            favButton.classList.remove('remove-fav');
+            favButton.innerHTML = '<img src="style/img/coeur.png" alt="Ajouter aux favoris">';
+        }
+    }
+
+    function toggleFavorite(product) {
+        const isRemoving = document.getElementById('fav-button').classList.contains('remove-fav');
+        if (isRemoving) {
+            removeFromFavorites(product);
+        } else {
+            addToFavorites(product);
+        }
     }
 
     function addToFavorites(product) {
@@ -120,6 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(() => {
             alert('Le produit a été ajouté aux favoris.');
+            setFavoriteButtonState(true);
         })
         .catch(error => {
             console.error('Erreur lors de l\'ajout aux favoris:', error);
@@ -135,54 +162,52 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(() => {
             alert('Le produit a été retiré des favoris.');
+            setFavoriteButtonState(false);
         })
         .catch(error => {
             console.error('Erreur lors de la suppression du favori:', error);
         });
     }
 
-    function addToCart(product, quantity) {
+    function addToCart(product, quantity, selectedSize, selectedColor) {
         let cart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
 
-        const existingItemIndex = cart.findIndex(item => item.id === product.id);
+        const existingItemIndex = cart.findIndex(item => item.id === product.id && item.size === selectedSize && item.color === selectedColor);
         let price = product.reduction > 0 ? (product.price * (1 - product.reduction / 100)).toFixed(2) : product.price;
 
         if (existingItemIndex !== -1) {
             cart[existingItemIndex].quantity += quantity;
         } else {
-            cart.push({ id: product.id, name: product.name, price, quantity });
+            cart.push({ id: product.id, name: product.name, price, quantity, size: selectedSize, color: selectedColor });
         }
 
         localStorage.setItem(`cart_${userId}`, JSON.stringify(cart));
         
-        alert(`${quantity} ${product.name} a été ajouté au panier.`);
-    }
-
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.carousel-item');
-        slides.forEach((slide, i) => {
-            slide.style.display = (i === index) ? 'block' : 'none';
-        });
-    }
-
-    let currentIndex = 0;
-
-    function nextSlide() {
-        currentIndex++;
-        if (currentIndex >= document.querySelectorAll('.carousel-item').length) {
-            currentIndex = 0;
-        }
-        showSlide(currentIndex);
-    }
-
-    function prevSlide() {
-        currentIndex--;
-        if (currentIndex < 0) {
-            currentIndex = document.querySelectorAll('.carousel-item').length - 1;
-        }
-        showSlide(currentIndex);
+        alert(`${quantity} ${product.name} (${selectedSize}, ${selectedColor}) a été ajouté au panier.`);
     }
 });
+
+let currentSlideIndex = 0;
+
+function showSlide(index) {
+    const slides = document.querySelectorAll('.carousel-inner img');
+    slides.forEach((slide, idx) => {
+        slide.classList.remove('active');
+        if (idx === index) slide.classList.add('active');
+    });
+}
+
+function nextSlide() {
+    const slides = document.querySelectorAll('.carousel-inner img');
+    currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+    showSlide(currentSlideIndex);
+}
+
+function prevSlide() {
+    const slides = document.querySelectorAll('.carousel-inner img');
+    currentSlideIndex = (currentSlideIndex - 1 + slides.length) % slides.length;
+    showSlide(currentSlideIndex);
+}
 
 function checkTokenValidity() {
     const token = localStorage.getItem('token');

@@ -160,14 +160,14 @@ h1 {
     margin-right: 5px;
     font-weight: bold;
     color: var(--primary-color);
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .filters select {
     padding: 8px 12px;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    font-size: 16px;
+    font-size: 13px;
     background-color: var(--bg-select);
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -179,11 +179,14 @@ h1 {
 }
 
 /* Sneakers Container Styles */
+
+
 .sneakers-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
+    justify-content: space-around;
 }
 
 .sneaker-item {
@@ -191,20 +194,21 @@ h1 {
     border-radius: 5px;
     border: 1px solid #ccc; /* Ajout de la bordure grise */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: calc(25% - 20px); /* Réduction de la taille */
+    width: calc(25% - 20px); /* Ajustement pour trois éléments par ligne */
     text-align: center;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .sneaker-item:hover {
-    transform: scale(1.01);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    transform: scale(1.05); /* Augmente légèrement la taille de l'élément */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
 }
 
 .sneaker-item img {
-    width: 100%;
-    height: auto;
+    width: 350px; /* Set a fixed width */
+    height: 150px; /* Set a fixed height */
+    object-fit: contain; /* Ensures the image fits within the area without being cut */
     border-radius: 5px;
     margin-bottom: 10px;
 }
@@ -219,7 +223,6 @@ h1 {
     color: var(--primary-color);
     font-size: 0.9em; /* Réduction de la taille de la police */
 }
-
 #home-link {
     display: inline-block;
     margin: 20px;
@@ -231,6 +234,8 @@ h1 {
     height: 20px;
     vertical-align: middle;
 }
+
+
 
 
 /* Sneaker Details Styles */
@@ -582,43 +587,50 @@ button.remove-item:hover {
 }
 
 /* Payment Page Styles */
-body.payment-page {
+
+.payment-page {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: calc(100vh - 70px);
+    background-color: #f4f4f4;
 }
 
-.payment-container {
-    background-color: var(--white);
-    padding: 20px 40px;
-    border-radius: 8px;
+.payment-cancel, .payment-success  {
+    background-color: #fff;
+    padding: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     text-align: center;
 }
 
-.payment-container h1 {
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.payment-container p {
-    color: #555;
-    font-size: 16px;
+.payment-cancel h1 {
     margin-bottom: 20px;
+    color: #dc1717;
+}
+.payment-success h1 {
+    margin-bottom: 20px;
+    color: #007bff;
 }
 
-.payment-container a {
-    color: var(--white);
-    background-color: var(--primary-color);
+
+.payment-cancel, .payment-success  p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.payment-cancel, .payment-success  a {
+    display: inline-block;
     padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
     text-decoration: none;
     border-radius: 4px;
-    font-size: 16px;
+    transition: background-color 0.3s ease;
 }
 
-.payment-container a:hover {
-    background-color: var(--hover-primary);
+.payment-cancel, .payment-success a:hover {
+    
 }
 
 /* Burger Menu Styles */
@@ -657,62 +669,22 @@ body.payment-page {
 .burger-menu .show {
     display: block;
 }
-.swiper-container {
-    width: 100%;
-    height: 300px; /* Adjust height as needed */
-}
 
-.sneaker-item {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.sneaker-item .swiper-pagination,
-.sneaker-item .swiper-button-next,
-.sneaker-item .swiper-button-prev {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.sneaker-item .swiper-pagination {
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-}
-
-.sneaker-item .swiper-button-next {
-    right: 10px;
-}
-
-.sneaker-item .swiper-button-prev {
-    left: 10px;
-}
 .carousel {
     position: relative;
-    max-width: 600px;
-    margin: auto;
-    overflow: hidden;
-}
-
-.carousel-inner {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
     width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+  
 }
 
-.carousel-item {
-    min-width: 100%;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.carousel-item img {
+.carousel-inner img {
     width: 100%;
-    display: block;
-}
-
-.carousel-item:not(.active) {
     display: none;
+}
+
+.carousel-inner img.active {
+    display: block;
 }
 
 .carousel-control-prev,
@@ -721,19 +693,19 @@ body.payment-page {
     top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
+    color: white;
     border: none;
+    font-size: 24px;
     padding: 10px;
     cursor: pointer;
-    color: white;
-    font-size: 18px;
+   
 }
 
 .carousel-control-prev {
-    left: 0;
+    margin-right:40%; /* Fine-tune positioning */
 }
 
 .carousel-control-next {
-    right: 0;
+    
+    margin-left:40%; /* Fine-tune positioning */
 }
-
-

@@ -31,5 +31,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     } else {
         console.error('Le formulaire de connexion est introuvable');
-    }
+    }z
 });
